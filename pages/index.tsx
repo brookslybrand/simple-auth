@@ -3,39 +3,56 @@ import Link from "next/link";
 import { signOut, useSession } from "next-auth/client";
 
 import Button from "../components/button";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const [session, loading] = useSession();
-
-  if (loading) {
-    return <Spinner />;
-  }
+  const expired = useTimeout();
 
   return (
     <>
       <Head>
         <title>Home</title>
       </Head>
-
-      <main className="flex flex-col max-w-max mx-auto mt-8 space-y-8 items-center text-gray-800">
-        {session ? (
-          <>
-            <h1 className="text-5xl">Welcome {session.user.name}</h1>
-            <Button onClick={() => signOut()}>Log out</Button>
-          </>
-        ) : (
-          <>
-            <h1 className="text-5xl">Welcome</h1>
-            <Link href="/login">
-              <a className="text-2xl p-1 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-800">
-                Please log in
-              </a>
-            </Link>
-          </>
-        )}
-      </main>
+      {loading ? (
+        expired ? (
+          <Spinner />
+        ) : null
+      ) : (
+        <main className="flex flex-col max-w-max mx-auto mt-8 space-y-8 items-center text-gray-800">
+          {session ? (
+            <>
+              <h1 className="text-5xl">Welcome {session.user.name}</h1>
+              <Button onClick={() => signOut()}>Log out</Button>
+            </>
+          ) : (
+            <>
+              <h1 className="text-5xl">Welcome</h1>
+              <Link href="/login">
+                <a className="text-2xl p-1 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-800">
+                  Please log in
+                </a>
+              </Link>
+            </>
+          )}
+        </main>
+      )}
     </>
   );
+}
+
+function useTimeout(ms = 500) {
+  const [expired, setExpired] = useState(false);
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setExpired(true);
+    }, ms);
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [ms]);
+
+  return expired;
 }
 
 function Spinner() {
