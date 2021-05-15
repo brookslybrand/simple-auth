@@ -13,7 +13,6 @@ export default function Login() {
       <main className="flex flex-col max-w-max mx-auto mt-8 space-y-8 items-center">
         <h1 className="text-5xl">Log in</h1>
         <Button
-          className="uppercase"
           onClick={() => {
             signIn("google", { callbackUrl });
           }}
