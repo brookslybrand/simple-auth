@@ -19,6 +19,13 @@ export default function Login() {
         >
           Continue with Google
         </Button>
+        <Button
+          onClick={() => {
+            signIn("github", { callbackUrl });
+          }}
+        >
+          Continue with GitHub
+        </Button>
       </main>
     </>
   );
