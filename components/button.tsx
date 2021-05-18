@@ -10,7 +10,7 @@ const Button = forwardRef<
       ref={ref}
       className={clsx([
         `w-full uppercase rounded-md p-2 text-lg text-gray-900 border-2 border-green-600
-         hover:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-green-600`,
+        hover:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-green-600`,
         className,
       ])}
       {...props}
